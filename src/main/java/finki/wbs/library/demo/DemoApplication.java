@@ -305,7 +305,7 @@ public class DemoApplication {
                     Statement bnb = subject.getProperty(m.getProperty("http://www.bl.uk/schemas/bibliographic/blterms#bnb"));
                     RDFNode bnbNode = bnb.getObject();
                     // System.out.println(nameNode+" "+titleNode+" "+contributors+" "+creators+" "+isbnNode+" "+dateNode+" "+bnbNode);
-                    Book book = new Book(nameNode.toString(), titleNode.toString(), creatorNames, contributorNames, isbnNode.toString(), bnbNode.toString(), dateNode.toString());
+                    Book book = new Book(nameNode.toString(), titleNode.toString(), creatorNames, contributorNames, isbnNode.toString(), bnbNode.toString(), dateNode.toString(),100);
                     books.add(book);
 
                 }
@@ -318,15 +318,15 @@ public class DemoApplication {
 
     }
 
-    public static String search(String param){
+    public static List<Book> search(String param){
         String file = "C:\\Users\\arife\\Desktop\\books.ttl";
-        String result="";
         Model m = ModelFactory.createDefaultModel();
         InputStream in = FileManager.get().open(file);
         if (in == null) {
             throw new IllegalArgumentException("File " + in + " is not found");
         }
         m.read(in, "", "TTL");
+        List<Book> result=new ArrayList<Book>();
         String queryString = "" +
                 "PREFIX schema: <http://schema.org/>\n" +
                 "PREFIX org:   <http://www.w3.org/ns/org#>\n" +
@@ -347,10 +347,12 @@ public class DemoApplication {
                 "PREFIX foaf:  <http://xmlns.com/foaf/0.1/>" +
 
 
-                "SELECT ?name   " +
+                "SELECT ?name ?creator ?datePublished    " +
                 "WHERE { " +
                 "?resource rdfs:label ?name ." +
-                "filter contains(?name, \""+param+"\")" +
+                "?resource dct:creator  ?creator ." +
+                "?resource schema:datePublished  ?datePublished ." +
+                "filter (contains(?name, \""+param+"\") || contains(?creator, \""+param+"\") || contains(?datePublished , \""+param+"\"))" +
                 "}";
         Query query = QueryFactory.create(queryString);
         QueryExecution qexec = QueryExecutionFactory.create(query, m);
@@ -359,7 +361,12 @@ public class DemoApplication {
             while (results.hasNext()) {
                 QuerySolution soln = results.nextSolution();
                 String name = soln.get("name").toString();
-                result=name;
+                String creator = soln.get("creator").toString();
+                String datePublished = soln.get("datePublished").toString();
+                Book book=books.stream().filter(b->b.getName().equals("name")||b.getCreators().contains(creator)||b.getDatePublished().equals(datePublished)).findFirst().orElseThrow(InvalidBookNameException::new);
+                if(book.availability()) {
+                    result.add(book);
+                }
 
 
             }

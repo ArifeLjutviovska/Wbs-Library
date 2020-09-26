@@ -11,11 +11,12 @@ public class Book {
     private String isbn;
     private String BNB;
     private String datePublished;
+    private int stock;
 
     public Book() {
     }
 
-    public Book(String name, String title, List<String> creators, List<String> contributors, String isbn, String BNB, String datePublished) {
+    public Book(String name, String title, List<String> creators, List<String> contributors, String isbn, String BNB, String datePublished,int stock) {
         Name = name;
         Title = title;
         this.creators = creators;
@@ -23,6 +24,7 @@ public class Book {
         this.isbn = isbn;
         this.BNB = BNB;
         this.datePublished = datePublished;
+        this.stock=stock;
     }
 
     public String getName() {
@@ -61,6 +63,14 @@ public class Book {
         return isbn;
     }
 
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
@@ -79,5 +89,14 @@ public class Book {
 
     public void setDatePublished(String datePublished) {
         this.datePublished = datePublished;
+    }
+
+    public boolean availability(){
+        return this.stock>0;
+    }
+
+    public Book reserveBook(){
+        this.stock-=1;
+        return this;
     }
 }
