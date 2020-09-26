@@ -14,8 +14,7 @@ import java.util.List;
 public class BookService {
 
     private final List<Book> books= DemoApplication.books;
-    private final List<Author> authors= DemoApplication.authors;
-    private final List<Contributor> contributors= DemoApplication.contributors;
+
 
     public BookService() {
     }
@@ -24,7 +23,7 @@ public class BookService {
         return this.books;
    }
    public Book getOneBook(String name){
-        return this.books.stream().filter(b->b.getName().equals(name)).findFirst().orElseThrow(InvalidBookNameException::new);
+        return this.books.stream().filter(b->b.getName().contains(name)).findFirst().orElseThrow(InvalidBookNameException::new);
    }
 
 

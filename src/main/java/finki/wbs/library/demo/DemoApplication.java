@@ -3,7 +3,9 @@ package finki.wbs.library.demo;
 import finki.wbs.library.demo.model.Author;
 import finki.wbs.library.demo.model.Book;
 import finki.wbs.library.demo.model.Contributor;
+import finki.wbs.library.demo.model.exceptions.InvalidAuthorNameException;
 import finki.wbs.library.demo.model.exceptions.InvalidBookNameException;
+import org.apache.jena.base.Sys;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.util.FileManager;
@@ -318,7 +320,7 @@ public class DemoApplication {
 
     }
 
-    public static List<Book> search(String param){
+    public static List<Book> searchByBookName(String param){
         String file = "C:\\Users\\arife\\Desktop\\books.ttl";
         Model m = ModelFactory.createDefaultModel();
         InputStream in = FileManager.get().open(file);
@@ -327,6 +329,7 @@ public class DemoApplication {
         }
         m.read(in, "", "TTL");
         List<Book> result=new ArrayList<Book>();
+
         String queryString = "" +
                 "PREFIX schema: <http://schema.org/>\n" +
                 "PREFIX org:   <http://www.w3.org/ns/org#>\n" +
@@ -347,12 +350,10 @@ public class DemoApplication {
                 "PREFIX foaf:  <http://xmlns.com/foaf/0.1/>" +
 
 
-                "SELECT ?name ?creator ?datePublished    " +
+                "SELECT ?name   " +
                 "WHERE { " +
                 "?resource rdfs:label ?name ." +
-                "?resource dct:creator  ?creator ." +
-                "?resource schema:datePublished  ?datePublished ." +
-                "filter (contains(?name, \""+param+"\") || contains(?creator, \""+param+"\") || contains(?datePublished , \""+param+"\"))" +
+                "filter (contains(?name, \""+param+"\"))" +
                 "}";
         Query query = QueryFactory.create(queryString);
         QueryExecution qexec = QueryExecutionFactory.create(query, m);
@@ -361,18 +362,319 @@ public class DemoApplication {
             while (results.hasNext()) {
                 QuerySolution soln = results.nextSolution();
                 String name = soln.get("name").toString();
-                String creator = soln.get("creator").toString();
-                String datePublished = soln.get("datePublished").toString();
-                Book book=books.stream().filter(b->b.getName().equals("name")||b.getCreators().contains(creator)||b.getDatePublished().equals(datePublished)).findFirst().orElseThrow(InvalidBookNameException::new);
-                if(book.availability()) {
+                Book book=books.stream().filter(b->b.getName().equals("name")).findFirst().orElseThrow(InvalidBookNameException::new);
                     result.add(book);
-                }
+
 
 
             }
         } finally {
             qexec.close();
         }
+
+        return result;
+    }
+
+    public static List<Book> orderByLatest(){
+        String file = "C:\\Users\\arife\\Desktop\\books.ttl";
+        Model m = ModelFactory.createDefaultModel();
+        InputStream in = FileManager.get().open(file);
+        if (in == null) {
+            throw new IllegalArgumentException("File " + in + " is not found");
+        }
+        m.read(in, "", "TTL");
+        List<Book> result=new ArrayList<Book>();
+
+        String queryString = "" +
+                "PREFIX schema: <http://schema.org/>\n" +
+                "PREFIX org:   <http://www.w3.org/ns/org#>\n" +
+                "PREFIX owl:   <http://www.w3.org/2002/07/owl#>\n" +
+                "PREFIX skos:  <http://www.w3.org/2004/02/skos/core#>\n" +
+                "PREFIX bio:   <http://purl.org/vocab/bio/0.1/>\n" +
+                "PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX blt:   <http://www.bl.uk/schemas/bibliographic/blterms#>\n" +
+                "PREFIX geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                "PREFIX rdau:  <http://rdaregistry.info/Elements/u/>\n" +
+                "PREFIX dct:   <http://purl.org/dc/terms/>\n" +
+                "PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX bibo:  <http://purl.org/ontology/bibo/>\n" +
+                "PREFIX interval: <http://reference.data.gov.uk/def/intervals/>\n" +
+                "PREFIX time:  <http://www.w3.org/2006/time#>\n" +
+                "PREFIX event: <http://purl.org/NET/c4dm/event.owl#>\n" +
+                "PREFIX isbd:  <http://iflastandards.info/ns/isbd/elements/>\n" +
+                "PREFIX foaf:  <http://xmlns.com/foaf/0.1/>" +
+
+
+                "SELECT ?name ?datePublished   " +
+                "WHERE { " +
+                "?resource rdfs:label ?name ." +
+                "?resource schema:datePublished ?datePublished ." +
+                "}"+
+                "order by desc(?datePublished)";
+        Query query = QueryFactory.create(queryString);
+        QueryExecution qexec = QueryExecutionFactory.create(query, m);
+        try {
+            ResultSet results = qexec.execSelect();
+            while (results.hasNext()) {
+                QuerySolution soln = results.nextSolution();
+                String name = soln.get("name").toString();
+                Book book=books.stream().filter(b->b.getName().equals(name)).findFirst().orElseThrow(InvalidBookNameException::new);
+                result.add(book);
+
+
+            }
+        } finally {
+            qexec.close();
+        }
+
+        return result;
+    }
+    public static List<Book> orderByOldest(){
+        String file = "C:\\Users\\arife\\Desktop\\books.ttl";
+        Model m = ModelFactory.createDefaultModel();
+        InputStream in = FileManager.get().open(file);
+        if (in == null) {
+            throw new IllegalArgumentException("File " + in + " is not found");
+        }
+        m.read(in, "", "TTL");
+        List<Book> result=new ArrayList<Book>();
+
+        String queryString = "" +
+                "PREFIX schema: <http://schema.org/>\n" +
+                "PREFIX org:   <http://www.w3.org/ns/org#>\n" +
+                "PREFIX owl:   <http://www.w3.org/2002/07/owl#>\n" +
+                "PREFIX skos:  <http://www.w3.org/2004/02/skos/core#>\n" +
+                "PREFIX bio:   <http://purl.org/vocab/bio/0.1/>\n" +
+                "PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                "PREFIX blt:   <http://www.bl.uk/schemas/bibliographic/blterms#>\n" +
+                "PREFIX geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                "PREFIX rdau:  <http://rdaregistry.info/Elements/u/>\n" +
+                "PREFIX dct:   <http://purl.org/dc/terms/>\n" +
+                "PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                "PREFIX bibo:  <http://purl.org/ontology/bibo/>\n" +
+                "PREFIX interval: <http://reference.data.gov.uk/def/intervals/>\n" +
+                "PREFIX time:  <http://www.w3.org/2006/time#>\n" +
+                "PREFIX event: <http://purl.org/NET/c4dm/event.owl#>\n" +
+                "PREFIX isbd:  <http://iflastandards.info/ns/isbd/elements/>\n" +
+                "PREFIX foaf:  <http://xmlns.com/foaf/0.1/>" +
+
+
+                "SELECT ?name ?datePublished   " +
+                "WHERE { " +
+                "?resource rdfs:label ?name ." +
+                "?resource schema:datePublished ?datePublished ." +
+                "}"+
+                "order by asc(?datePublished)";
+        Query query = QueryFactory.create(queryString);
+        QueryExecution qexec = QueryExecutionFactory.create(query, m);
+        try {
+            ResultSet results = qexec.execSelect();
+            while (results.hasNext()) {
+                QuerySolution soln = results.nextSolution();
+                String name = soln.get("name").toString();
+                Book book=books.stream().filter(b->b.getName().equals(name)).findFirst().orElseThrow(InvalidBookNameException::new);
+                result.add(book);
+
+
+            }
+        } finally {
+            qexec.close();
+        }
+
+        return result;
+    }
+
+    public static List<Book> searchByAuthorName(String param){
+        String file = "C:\\Users\\arife\\Desktop\\books.ttl";
+        Model m = ModelFactory.createDefaultModel();
+        String queryString="";
+
+        InputStream in = FileManager.get().open(file);
+        if (in == null) {
+            throw new IllegalArgumentException("File " + in + " is not found");
+        }
+        m.read(in, "", "TTL");
+        List<Book> result=new ArrayList<Book>();
+        Author author= authors.stream().filter(a->a.getName().contains(param)).findFirst().orElseThrow(InvalidAuthorNameException::new);
+        List<String> hasCreated=author.getHasCreated();
+        for (String created: hasCreated) {
+
+
+            queryString = "" +
+                    "PREFIX schema: <http://schema.org/>\n" +
+                    "PREFIX org:   <http://www.w3.org/ns/org#>\n" +
+                    "PREFIX owl:   <http://www.w3.org/2002/07/owl#>\n" +
+                    "PREFIX skos:  <http://www.w3.org/2004/02/skos/core#>\n" +
+                    "PREFIX bio:   <http://purl.org/vocab/bio/0.1/>\n" +
+                    "PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                    "PREFIX blt:   <http://www.bl.uk/schemas/bibliographic/blterms#>\n" +
+                    "PREFIX geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                    "PREFIX rdau:  <http://rdaregistry.info/Elements/u/>\n" +
+                    "PREFIX dct:   <http://purl.org/dc/terms/>\n" +
+                    "PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                    "PREFIX bibo:  <http://purl.org/ontology/bibo/>\n" +
+                    "PREFIX interval: <http://reference.data.gov.uk/def/intervals/>\n" +
+                    "PREFIX time:  <http://www.w3.org/2006/time#>\n" +
+                    "PREFIX event: <http://purl.org/NET/c4dm/event.owl#>\n" +
+                    "PREFIX isbd:  <http://iflastandards.info/ns/isbd/elements/>\n" +
+                    "PREFIX foaf:  <http://xmlns.com/foaf/0.1/>" +
+
+
+                    "SELECT ?name ?datePublished   " +
+                    "WHERE { " +
+                    "?resource rdfs:label ?name ." +
+                    "?resource schema:datePublished ?datePublished ." +
+                    "filter contains(?name,\"" + created + "\")" +
+                    "}";
+
+            Query query = QueryFactory.create(queryString);
+            QueryExecution qexec = QueryExecutionFactory.create(query, m);
+            try {
+                ResultSet results = qexec.execSelect();
+                while (results.hasNext()) {
+                    QuerySolution soln = results.nextSolution();
+                    String name = soln.get("name").toString();
+                    String date = soln.get("datePublished").toString();
+                    System.out.println(name + " " + date);
+                    Book book = books.stream().filter(b -> b.getName().equals(name)).findFirst().orElseThrow(InvalidBookNameException::new);
+                    result.add(book);
+
+
+                }
+            } finally {
+                qexec.close();
+            }
+
+        }
+
+        return result;
+    }
+    public static List<Book> searchByContributorName(String param){
+        String file = "C:\\Users\\arife\\Desktop\\books.ttl";
+        Model m = ModelFactory.createDefaultModel();
+        String queryString="";
+
+        InputStream in = FileManager.get().open(file);
+        if (in == null) {
+            throw new IllegalArgumentException("File " + in + " is not found");
+        }
+        m.read(in, "", "TTL");
+        List<Book> result=new ArrayList<Book>();
+        Contributor contributor= contributors.stream().filter(a->a.getName().contains(param)).findFirst().orElseThrow(InvalidAuthorNameException::new);
+        List<String> hasContributed=contributor.getHasContributed();
+        for (String con: hasContributed) {
+
+
+            queryString = "" +
+                    "PREFIX schema: <http://schema.org/>\n" +
+                    "PREFIX org:   <http://www.w3.org/ns/org#>\n" +
+                    "PREFIX owl:   <http://www.w3.org/2002/07/owl#>\n" +
+                    "PREFIX skos:  <http://www.w3.org/2004/02/skos/core#>\n" +
+                    "PREFIX bio:   <http://purl.org/vocab/bio/0.1/>\n" +
+                    "PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                    "PREFIX blt:   <http://www.bl.uk/schemas/bibliographic/blterms#>\n" +
+                    "PREFIX geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                    "PREFIX rdau:  <http://rdaregistry.info/Elements/u/>\n" +
+                    "PREFIX dct:   <http://purl.org/dc/terms/>\n" +
+                    "PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                    "PREFIX bibo:  <http://purl.org/ontology/bibo/>\n" +
+                    "PREFIX interval: <http://reference.data.gov.uk/def/intervals/>\n" +
+                    "PREFIX time:  <http://www.w3.org/2006/time#>\n" +
+                    "PREFIX event: <http://purl.org/NET/c4dm/event.owl#>\n" +
+                    "PREFIX isbd:  <http://iflastandards.info/ns/isbd/elements/>\n" +
+                    "PREFIX foaf:  <http://xmlns.com/foaf/0.1/>" +
+
+
+                    "SELECT ?name ?datePublished   " +
+                    "WHERE { " +
+                    "?resource rdfs:label ?name ." +
+                    "?resource schema:datePublished ?datePublished ." +
+                    "filter contains(?name,\"" + con + "\")" +
+                    "}";
+
+            Query query = QueryFactory.create(queryString);
+            QueryExecution qexec = QueryExecutionFactory.create(query, m);
+            try {
+                ResultSet results = qexec.execSelect();
+                while (results.hasNext()) {
+                    QuerySolution soln = results.nextSolution();
+                    String name = soln.get("name").toString();
+                    String date = soln.get("datePublished").toString();
+                    System.out.println(name + " " + date);
+                    Book book = books.stream().filter(b -> b.getName().equals(name)).findFirst().orElseThrow(InvalidBookNameException::new);
+                    result.add(book);
+
+
+                }
+            } finally {
+                qexec.close();
+            }
+
+        }
+
+        return result;
+    }
+
+    public static List<Book> searchByYear(String year){
+        String file = "C:\\Users\\arife\\Desktop\\books.ttl";
+        Model m = ModelFactory.createDefaultModel();
+        String queryString="";
+
+        InputStream in = FileManager.get().open(file);
+        if (in == null) {
+            throw new IllegalArgumentException("File " + in + " is not found");
+        }
+        m.read(in, "", "TTL");
+        List<Book> result=new ArrayList<Book>();
+
+
+
+
+            queryString = "" +
+                    "PREFIX schema: <http://schema.org/>\n" +
+                    "PREFIX org:   <http://www.w3.org/ns/org#>\n" +
+                    "PREFIX owl:   <http://www.w3.org/2002/07/owl#>\n" +
+                    "PREFIX skos:  <http://www.w3.org/2004/02/skos/core#>\n" +
+                    "PREFIX bio:   <http://purl.org/vocab/bio/0.1/>\n" +
+                    "PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>\n" +
+                    "PREFIX blt:   <http://www.bl.uk/schemas/bibliographic/blterms#>\n" +
+                    "PREFIX geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#>\n" +
+                    "PREFIX rdau:  <http://rdaregistry.info/Elements/u/>\n" +
+                    "PREFIX dct:   <http://purl.org/dc/terms/>\n" +
+                    "PREFIX rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                    "PREFIX bibo:  <http://purl.org/ontology/bibo/>\n" +
+                    "PREFIX interval: <http://reference.data.gov.uk/def/intervals/>\n" +
+                    "PREFIX time:  <http://www.w3.org/2006/time#>\n" +
+                    "PREFIX event: <http://purl.org/NET/c4dm/event.owl#>\n" +
+                    "PREFIX isbd:  <http://iflastandards.info/ns/isbd/elements/>\n" +
+                    "PREFIX foaf:  <http://xmlns.com/foaf/0.1/>" +
+
+
+                    "SELECT ?name ?datePublished   " +
+                    "WHERE { " +
+                    "?resource rdfs:label ?name ." +
+                    "?resource schema:datePublished ?datePublished ." +
+                    "filter contains(?datePublished,\"" + year + "\")" +
+                    "}";
+
+            Query query = QueryFactory.create(queryString);
+            QueryExecution qexec = QueryExecutionFactory.create(query, m);
+            try {
+                ResultSet results = qexec.execSelect();
+                while (results.hasNext()) {
+                    QuerySolution soln = results.nextSolution();
+                    String name = soln.get("name").toString();
+                    String date = soln.get("datePublished").toString();
+                    System.out.println(name + " " + date);
+                    Book book = books.stream().filter(b -> b.getName().equals(name)).findFirst().orElseThrow(InvalidBookNameException::new);
+                    result.add(book);
+
+
+                }
+            } finally {
+                qexec.close();
+            }
+
 
         return result;
     }

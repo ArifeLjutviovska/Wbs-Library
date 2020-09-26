@@ -29,6 +29,19 @@ public class BookController {
         return this.bookService.getOneBook(name);
 
     }
+    @GetMapping("/{name}/availability")
+    public boolean getBookAvailability(@PathVariable("name") String name){
+        Book book=this.bookService.getOneBook(name);
+        return book.availability();
+
+    }
+    @PatchMapping("/{name}/editStock")
+    public Book editBookStock(@PathVariable("name") String name,int stock){
+        Book book=this.bookService.getOneBook(name);
+        book.setStock(stock);
+        return book;
+
+    }
 
 
 }
