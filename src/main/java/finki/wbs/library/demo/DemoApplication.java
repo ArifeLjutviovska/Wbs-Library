@@ -71,6 +71,8 @@ public class DemoApplication {
 
                         Statement name = subject.getProperty(m.getProperty("http://schema.org/name"));
                         RDFNode nameNode = name.getObject();
+                        Statement label = subject.getProperty(m.getProperty("http://www.w3.org/2000/01/rdf-schema#label"));
+                        RDFNode labelNode = label.getObject();
                         //System.out.println(subjectString);
 
                         NodeIterator iterCreated = m.listObjectsOfProperty(subject, m.getProperty(crShema));
@@ -99,7 +101,7 @@ public class DemoApplication {
 
                                     "SELECT ?name " +
                                     "WHERE { " +
-                                    "<" + node.toString() + ">" + " rdfs:label ?name" +
+                                    "<" + node.toString() + ">" + " schema:name ?name" +
                                     "}";
                             Query query = QueryFactory.create(queryString);
                             QueryExecution qexec = QueryExecutionFactory.create(query, m);
@@ -120,7 +122,7 @@ public class DemoApplication {
 
 
                         //  System.out.println(objHasCreated);
-                        Author author = new Author(nameNode.toString(), objHasCreated, type);
+                        Author author = new Author(nameNode.toString(), objHasCreated, type,labelNode.toString());
                         authors.add(author);
 
 
@@ -135,6 +137,8 @@ public class DemoApplication {
                         //System.out.println(subject);
                         Statement name = subject.getProperty(m.getProperty("http://schema.org/name"));
                         RDFNode nameNode = name.getObject();
+                        Statement label = subject.getProperty(m.getProperty("http://www.w3.org/2000/01/rdf-schema#label"));
+                        RDFNode labelNode = label.getObject();
 
                         // System.out.println(subjectString);
 
@@ -164,7 +168,7 @@ public class DemoApplication {
 
                                     "SELECT ?name " +
                                     "WHERE { " +
-                                    "<" + node.toString() + ">" + " rdfs:label ?name" +
+                                    "<" + node.toString() + ">" + " schema:name ?name" +
                                     "}";
                             Query query = QueryFactory.create(queryString);
                             QueryExecution qexec = QueryExecutionFactory.create(query, m);
@@ -185,7 +189,7 @@ public class DemoApplication {
 
 
                         // System.out.println(objHasCon);
-                        Contributor contributor = new Contributor(nameNode.toString(), objHasCon, type);
+                        Contributor contributor = new Contributor(nameNode.toString(), objHasCon, type,labelNode.toString());
                         contributors.add(contributor);
 
 
@@ -350,10 +354,12 @@ public class DemoApplication {
                 "PREFIX foaf:  <http://xmlns.com/foaf/0.1/>" +
 
 
-                "SELECT ?name   " +
+                "SELECT ?name ?label ?title  " +
                 "WHERE { " +
-                "?resource rdfs:label ?name ." +
-                "filter (contains(?name, \""+param+"\"))" +
+                "?resource rdfs:label ?label ." +
+                "?resource schema:name ?name ." +
+                "?resource dct:title ?title ." +
+                "filter (contains(?name, \""+param+"\") || contains(?title, \""+param+"\") || contains(?label, \""+param+"\") )" +
                 "}";
         Query query = QueryFactory.create(queryString);
         QueryExecution qexec = QueryExecutionFactory.create(query, m);
@@ -361,8 +367,11 @@ public class DemoApplication {
             ResultSet results = qexec.execSelect();
             while (results.hasNext()) {
                 QuerySolution soln = results.nextSolution();
+                String label = soln.get("label").toString();
                 String name = soln.get("name").toString();
-                Book book=books.stream().filter(b->b.getName().equals("name")).findFirst().orElseThrow(InvalidBookNameException::new);
+                String title = soln.get("title").toString();
+                //System.out.println(label+" "+name+" "+title);
+                Book book=books.stream().filter(b->b.getName().equals(label)).findFirst().orElseThrow(InvalidBookNameException::new);
                     result.add(book);
 
 
@@ -520,11 +529,13 @@ public class DemoApplication {
                     "PREFIX foaf:  <http://xmlns.com/foaf/0.1/>" +
 
 
-                    "SELECT ?name ?datePublished   " +
+                    "SELECT ?name ?datePublished ?label ?title   " +
                     "WHERE { " +
-                    "?resource rdfs:label ?name ." +
+                    "?resource rdfs:label ?label ." +
                     "?resource schema:datePublished ?datePublished ." +
-                    "filter contains(?name,\"" + created + "\")" +
+                    "?resource schema:name ?name ." +
+                    "?resource dct:title ?title ." +
+                    "filter (contains(?name,\"" + created + "\") || contains(?label,\"" + created + "\") || contains(?title,\"" + created + "\"))" +
                     "}";
 
             Query query = QueryFactory.create(queryString);
@@ -533,9 +544,8 @@ public class DemoApplication {
                 ResultSet results = qexec.execSelect();
                 while (results.hasNext()) {
                     QuerySolution soln = results.nextSolution();
-                    String name = soln.get("name").toString();
-                    String date = soln.get("datePublished").toString();
-                    System.out.println(name + " " + date);
+                    String name = soln.get("label").toString();
+                   // System.out.println(name + " " + date);
                     Book book = books.stream().filter(b -> b.getName().equals(name)).findFirst().orElseThrow(InvalidBookNameException::new);
                     result.add(book);
 
@@ -585,11 +595,12 @@ public class DemoApplication {
                     "PREFIX foaf:  <http://xmlns.com/foaf/0.1/>" +
 
 
-                    "SELECT ?name ?datePublished   " +
+                    "SELECT ?name  ?label ?title  " +
                     "WHERE { " +
-                    "?resource rdfs:label ?name ." +
-                    "?resource schema:datePublished ?datePublished ." +
-                    "filter contains(?name,\"" + con + "\")" +
+                    "?resource rdfs:label ?label ." +
+                    "?resource schema:name ?name ." +
+                    "?resource dct:title ?title ." +
+                    "filter (contains(?name,\"" + con + "\") || contains(?label,\"" + con + "\") || contains(?title,\"" + con + "\"))" +
                     "}";
 
             Query query = QueryFactory.create(queryString);
@@ -598,9 +609,8 @@ public class DemoApplication {
                 ResultSet results = qexec.execSelect();
                 while (results.hasNext()) {
                     QuerySolution soln = results.nextSolution();
-                    String name = soln.get("name").toString();
-                    String date = soln.get("datePublished").toString();
-                    System.out.println(name + " " + date);
+                    String name = soln.get("label").toString();
+                    //System.out.println(name );
                     Book book = books.stream().filter(b -> b.getName().equals(name)).findFirst().orElseThrow(InvalidBookNameException::new);
                     result.add(book);
 
