@@ -29,6 +29,18 @@ public class BookController {
         return this.bookService.getOneBook(name);
 
     }
+    @GetMapping("/{name}/creators")
+    public List<String> getBookCreators(@PathVariable("name") String name){
+        return this.bookService.getCreators(name);
+
+    }
+
+    @GetMapping("/{name}/contributors")
+    public List<String> getBookContributors(@PathVariable("name") String name){
+        return this.bookService.getContributors(name);
+
+    }
+
     @GetMapping("/{name}/availability")
     public boolean getBookAvailability(@PathVariable("name") String name){
         Book book=this.bookService.getOneBook(name);

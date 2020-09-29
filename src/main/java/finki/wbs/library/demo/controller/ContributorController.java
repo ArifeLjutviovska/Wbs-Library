@@ -27,4 +27,10 @@ public class ContributorController {
             return this.contributorService.getOneContributor(name);
 
     }
+
+    @GetMapping("/{name}/hasContributed")
+    public List<String> getHasContributed(@PathVariable("name") String name){
+        return this.contributorService.getHasContributed(name);
+
+    }
 }

@@ -29,4 +29,10 @@ public class AuthorController {
         return this.authorService.getOneAuthor(name);
     }
 
+    @GetMapping("/{name}/hasCreated")
+    public List<String> getHasCreated(@PathVariable("name") String name){
+        return this.authorService.getHasCreated(name);
+    }
+
+
 }

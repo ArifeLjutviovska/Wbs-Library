@@ -20,4 +20,8 @@ public class ContributorService {
     public Contributor getOneContributor(String name){
         return this.contributors.stream().filter(c->c.getName().equals(name)).findFirst().orElseThrow(InvalidContributorNameException::new);
     }
+    public List<String> getHasContributed(String name){
+        Contributor contributor=this.getOneContributor(name);
+        return contributor.getHasContributed();
+    }
 }

@@ -2,9 +2,11 @@ package finki.wbs.library.demo.service;
 
 import finki.wbs.library.demo.DemoApplication;
 import finki.wbs.library.demo.model.Author;
+import org.springframework.data.domain.PageRequest;
 import finki.wbs.library.demo.model.Book;
 import finki.wbs.library.demo.model.Contributor;
 import finki.wbs.library.demo.model.exceptions.InvalidBookNameException;
+
 import org.springframework.stereotype.Service;
 
 
@@ -23,9 +25,17 @@ public class BookService {
         return this.books;
    }
    public Book getOneBook(String name){
-        return this.books.stream().filter(b->b.getName().contains(name)).findFirst().orElseThrow(InvalidBookNameException::new);
+        return this.books.stream().filter(b->b.getName().equals(name)).findFirst().orElseThrow(InvalidBookNameException::new);
    }
 
+  public List<String> getCreators(String name){
+        Book book=this.getOneBook(name);
+        return book.getCreators();
+  }
+    public List<String> getContributors(String name){
+        Book book=this.getOneBook(name);
+        return book.getContributors();
+    }
 
 
 

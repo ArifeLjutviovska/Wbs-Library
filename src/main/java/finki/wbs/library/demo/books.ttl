@@ -1,0 +1,298 @@
+@prefix schema: <http://schema.org/> .
+@prefix org:   <http://www.w3.org/ns/org#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bio:   <http://purl.org/vocab/bio/0.1/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix blt:   <http://www.bl.uk/schemas/bibliographic/blterms#> .
+@prefix geo:   <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix rdau:  <http://rdaregistry.info/Elements/u/> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix interval: <http://reference.data.gov.uk/def/intervals/> .
+@prefix time:  <http://www.w3.org/2006/time#> .
+@prefix event: <http://purl.org/NET/c4dm/event.owl#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+
+<http://bnb.data.bl.uk/id/resource/005579931>
+        a                     bibo:Book , dct:BibliographicResource , schema:Book ;
+        rdfs:label            "SumaTeologiczna" ;
+        dct:contributor       <http://bnb.data.bl.uk/id/person/PiotowiczStanislaw> ;
+        dct:creator           <http://bnb.data.bl.uk/id/person/ThomasAquinasSaint1225%3F-1274> ;
+        dct:title             "Suma teologiczna" ;
+        schema:author         <http://bnb.data.bl.uk/id/person/ThomasAquinasSaint1225%3F-1274> ;
+        schema:contributor    <http://bnb.data.bl.uk/id/person/PiotowiczStanislaw> ;
+        schema:datePublished  "1969" ;
+        schema:isbn           "0901215058" ;
+        schema:name           "Suma teologiczna" ;
+        blt:bnb               "GB6903663" ; .
+
+<http://bnb.data.bl.uk/id/resource/005579932>
+        a                     bibo:Book , dct:BibliographicResource , schema:Book ;
+        rdfs:label            "Test" ;
+        dct:contributor       <http://bnb.data.bl.uk/id/person/PiotowiczStanislaw> ;
+        dct:creator           <http://bnb.data.bl.uk/id/person/ThomasAquinasSaint1225%3F-1274> ;
+        dct:title             "Proba" ;
+        schema:author         <http://bnb.data.bl.uk/id/person/ThomasAquinasSaint1225%3F-1274> ;
+        schema:contributor    <http://bnb.data.bl.uk/id/person/PiotowiczStanislaw> ;
+        schema:datePublished  "1973" ;
+        schema:isbn           "0901215058" ;
+        schema:name           "Test" ;
+        blt:bnb               "GB6903663" ; .
+		
+		
+<http://bnb.data.bl.uk/id/person/PiotowiczStanislaw>
+        a                     foaf:Agent , schema:Person , foaf:Person , dct:Agent ;
+        rdfs:label            "Piotowicz,Stanislaw" ;
+        schema:name           "Piotowicz Stanislaw" ;
+		schema:birthDate      "1952";
+        blt:hasContributedTo  <http://bnb.data.bl.uk/id/resource/005579931> ;
+        foaf:familyName       "Piotowicz" ;
+        foaf:givenName        "Stanislaw" ;
+        foaf:name             "Stanislaw Piotowicz" .
+		
+<http://bnb.data.bl.uk/id/person/ThomasAquinasSaint1225%3F-1274>
+        a                 foaf:Person , dct:Agent , foaf:Agent , schema:Person ;
+        rdfs:label        "Thomas,Aquinas,Saint,1225?-1274" ;
+        schema:birthDate  "1225" ;
+        schema:deathDate  "1274" ;
+        schema:name       "Thomas Aquinas Saint" ;
+        blt:hasCreated     <http://bnb.data.bl.uk/id/resource/005579931> ,<http://bnb.data.bl.uk/id/resource/005579932> ; .
+        
+
+
+<http://bnb.data.bl.uk/id/resource/006687007>
+        a                      schema:Book , bibo:Book , dct:BibliographicResource ;
+        rdfs:label            "EnglishobjectivetestsDavidSelf" ;
+        dct:creator           <http://bnb.data.bl.uk/id/person/SelfDavid1940-> ;
+        dct:title             "English objective tests" ; 
+        schema:author         <http://bnb.data.bl.uk/id/person/SelfDavid1940-> ;
+        dct:contributor       <http://bnb.data.bl.uk/id/person/SelfDavid1940-> ;
+        schema:datePublished  "1972" ;
+        schema:isbn           "0333147642" ;
+        schema:name           "English objective tests" ;
+        blt:bnb               "GB7301854" ; .
+		
+<http://bnb.data.bl.uk/id/person/SelfDavid1940->
+        a                     foaf:Person , schema:Person , dct:Agent , foaf:Agent ;
+        rdfs:label            "Self,David,1940-" ;
+        schema:birthDate      "1940" ;
+        schema:name           "Self David" ;
+        blt:hasContributedTo   <http://bnb.data.bl.uk/id/resource/006687007>;
+        blt:hasCreated        <http://bnb.data.bl.uk/id/resource/006687007> ;
+        foaf:familyName       "Self" ;
+        foaf:givenName        "David" ;
+        foaf:name             "David Self" .
+
+
+<http://bnb.data.bl.uk/id/resource/005596354>
+        a                     dct:BibliographicResource , schema:Book , bibo:Book ;
+        rdfs:label            "Britishexportsandexchangerestrictionsabroad" ;
+        dct:contributor       <http://bnb.data.bl.uk/id/organization/SwissBankCorporation> ;
+	dct:creator           <http://bnb.data.bl.uk/id/organization/SwissBankCorporation> ;
+        dct:title             "British exports and exchange restrictions abroad" ;
+        schema:contributor    <http://bnb.data.bl.uk/id/organization/SwissBankCorporation> ;
+        schema:datePublished  "1974" ;
+        schema:isbn           "0901827045" ;
+        schema:name           "British exports and exchange restrictions abroad" ;
+        blt:bnb               "GB7423964" ; .
+		
+<http://bnb.data.bl.uk/id/organization/SwissBankCorporation>
+        a                     foaf:Agent , org:Organization , dct:Agent , foaf:Organization , schema:Organization ;
+        rdfs:label            "SwissBankCorporation" ;
+        schema:name           "Swiss Bank Corporation" ;
+        blt:hasContributedTo  <http://bnb.data.bl.uk/id/resource/005596354> ; 
+        blt:hasCreated        <http://bnb.data.bl.uk/id/resource/005596354>; .
+
+<http://bnb.data.bl.uk/id/resource/005599742>
+        a                     schema:Book , dct:BibliographicResource , bibo:Book ;
+        rdfs:label            "WhattheBibleteaches.Vol.9" ;
+        dct:contributor       <http://bnb.data.bl.uk/id/person/WaughGeorge> , <http://bnb.data.bl.uk/id/person/AndersonJames> ;
+	dct:creator           <http://bnb.data.bl.uk/id/person/WaughGeorge>;
+        dct:description       "On title page: \"With authorised version of the Bible. In eleven volumes covering the New Testament." ;
+        dct:title             "What the Bible teaches. Vol. 9" ;
+        schema:contributor    <http://bnb.data.bl.uk/id/person/WaughGeorge> , <http://bnb.data.bl.uk/id/person/AndersonJames> ;
+        schema:datePublished  "1992" ;
+        schema:isbn           "094635135X" ;
+        schema:name           "What the Bible teaches. Vol. 9" ;
+        blt:bnb               "GB9350591" ; .
+		
+<http://bnb.data.bl.uk/id/person/WaughGeorge>
+        a                     dct:Agent , foaf:Agent , schema:Person , foaf:Person ;
+        rdfs:label            "Waugh,George" ;
+        schema:name           "Waugh George" ;
+        blt:hasContributedTo  <http://bnb.data.bl.uk/id/resource/005599742> ;
+		blt:hasCreated        <http://bnb.data.bl.uk/id/resource/005599742>;
+        foaf:familyName       "Waugh" ;
+        foaf:givenName        "George" ;
+        foaf:name             "George Waugh" .
+
+<http://bnb.data.bl.uk/id/person/AndersonJames>
+        a                     foaf:Person , schema:Person , dct:Agent , foaf:Agent ;
+        rdfs:label            "Anderson,James" ;
+        schema:name           "Anderson James" ;
+        blt:hasContributedTo  <http://bnb.data.bl.uk/id/resource/005599742> ;
+        foaf:familyName       "Anderson" ;
+        foaf:givenName        "James" ;
+        foaf:name             "James Anderson" .
+		
+<http://bnb.data.bl.uk/id/resource/005594927>
+        a                     bibo:Book , schema:Book , dct:BibliographicResource ;
+        rdfs:label            "AguidetodegreecoursesiEnglish" ;
+		dct:creator           <http://bnb.data.bl.uk/id/person/ToughAlisterJohn>;
+        dct:contributor       <http://bnb.data.bl.uk/id/organization/EnglishAssociation> , <http://bnb.data.bl.uk/id/person/ToughAlisterJohn> ;
+        dct:title             "A guide to degree courses in English" ;
+        schema:contributor    <http://bnb.data.bl.uk/id/person/ToughAlisterJohn> , <http://bnb.data.bl.uk/id/organization/EnglishAssociation> ;
+        schema:datePublished  "1973" ;
+        schema:isbn           "0900232021" ;
+        schema:name           "A guide to degree courses in English : a comparative guide to first degree courses in English at the universities of the United Kingdom and the Republic of Ireland and at some polytechnics and colleges" ;
+        blt:bnb               "GB7422183" ; .
+		
+<http://bnb.data.bl.uk/id/organization/EnglishAssociation>
+        a                     foaf:Organization , foaf:Agent , schema:Organization , dct:Agent , org:Organization ;
+        rdfs:label            "EnglishAssociation" ;
+        schema:name           "English Association" ;
+        blt:hasContributedTo  <http://bnb.data.bl.uk/id/resource/005594927> ;
+        foaf:name             "English Association" .
+		
+<http://bnb.data.bl.uk/id/person/ToughAlisterJohn>
+        a                     dct:Agent , foaf:Agent , foaf:Person , schema:Person ;
+        rdfs:label            "Tough,AlisterJohn" ;
+        schema:name           "Tough Alister John" ;
+	blt:hasCreated        <http://bnb.data.bl.uk/id/resource/005594927>;
+        blt:hasContributedTo   <http://bnb.data.bl.uk/id/resource/005594927> ;
+        foaf:familyName       "Tough" ;
+        foaf:givenName        "Alister John" ;
+        foaf:name             "Alister John Tough" .
+		
+<http://bnb.data.bl.uk/id/resource/005584861>
+        a                     dct:BibliographicResource , schema:Book , bibo:Book ;
+        rdfs:label            "London.1,TheCitiesofLondonandWestminsterNikolausPevsner" ;
+        dct:contributor       <http://bnb.data.bl.uk/id/person/CherryBridget> ;
+        dct:creator           <http://bnb.data.bl.uk/id/person/PevsnerNikolaus1902-1983> ;
+        dct:description       "Previous ed.: 1962."@en , "Includes index." ;
+        dct:title             "London. 1, The Cities of London and Westminster" ;
+        schema:author         <http://bnb.data.bl.uk/id/person/PevsnerNikolaus1902-1983> ;
+        schema:contributor    <http://bnb.data.bl.uk/id/person/CherryBridget> ;
+        schema:datePublished  "1973" ;
+        schema:isbn           "0140710124" ;
+        schema:name           "London. 1, The Cities of London and Westminster" ;
+        blt:bnb               "GB7306558" ; .
+		
+<http://bnb.data.bl.uk/id/person/CherryBridget>
+        a                     dct:Agent , schema:Person , foaf:Person , foaf:Agent ;
+        rdfs:label            "Cherry,Bridget" ;
+        schema:name           "Cherry Bridget" ;
+        blt:hasContributedTo  <http://bnb.data.bl.uk/id/resource/005584861> ;
+        foaf:familyName       "Cherry" ;
+        foaf:givenName        "Bridget" ;
+        foaf:name             "Bridget Cherry" .
+		
+<http://bnb.data.bl.uk/id/person/PevsnerNikolaus1902-1983>
+        a                     foaf:Agent , schema:Person , foaf:Person , dct:Agent ;
+        rdfs:label            "Pevsner,Nikolaus,1902-1983" ;
+        schema:birthDate      "1983" ;
+        schema:deathDate      "1902" ;
+        schema:name           "Pevsner Nikolaus" ;
+        blt:hasCreated        <http://bnb.data.bl.uk/id/resource/005584861> ;
+        foaf:familyName       "Pevsner" ;
+        foaf:givenName        "Nikolaus" ;
+        foaf:name             "Nikolaus Pevsner" .
+
+<http://bnb.data.bl.uk/id/resource/005572602>
+        a                     schema:Book , bibo:Book , dct:BibliographicResource ;
+        rdfs:label            "BasicelectronicsVanValkenburgh,Nooger&Neville" ;
+        isbd:P1053            "93 pages"@en ;
+        dct:creator           <http://bnb.data.bl.uk/id/organization/VanValkenburghNooger%26Neville> ;
+	dct:contributor       <http://bnb.data.bl.uk/id/organization/VanValkenburghNooger%26Neville> ;
+        dct:description       "American ed. first published, Van Valkenburgh, Nooger & Neville, 1954."@en ;
+        dct:title             "Basic electronics" ;
+        schema:author         <http://bnb.data.bl.uk/id/organization/VanValkenburghNooger%26Neville> ;
+        schema:datePublished  "1959" ; 
+        schema:isbn          "005572602";
+        schema:name           "Basic electronics" ;
+        blt:bnb               "GB5910400" ; .
+		
+<http://bnb.data.bl.uk/id/organization/VanValkenburghNooger%26Neville>
+        a               dct:Agent , foaf:Organization , foaf:Agent , schema:Organization , org:Organization ;
+        rdfs:label      "VanValkenburgh,Nooger&Neville" ;
+        schema:name     "Van Valkenburgh Nooger & Neville" ;
+        blt:hasCreated  <http://bnb.data.bl.uk/id/resource/005572602> ;
+        foaf:name       "Van Valkenburgh, Nooger & Neville";
+	blt:hasContributedTo <http://bnb.data.bl.uk/id/resource/005572602>; .
+		
+<http://bnb.data.bl.uk/id/resource/005613262>
+        a                     bibo:Book , dct:BibliographicResource , schema:Book ;
+        rdfs:label            "CIBSguideCharteredInstitutionofBuildingServices" ;
+        dct:creator           <http://bnb.data.bl.uk/id/organization/CharteredInstitutionofBuildingServices> ;
+	dct:contributor       <http://bnb.data.bl.uk/id/organization/CharteredInstitutionofBuildingServices> ;
+        dct:description       "Pierced for binder. - Forms part of the \"Building services manual\"."@en , "Previous ed.: 1970?."@en ;
+        dct:title             "CIBS guide" ;
+        schema:author         <http://bnb.data.bl.uk/id/organization/CharteredInstitutionofBuildingServices> ;
+        schema:datePublished  "1978" ;
+        schema:isbn            "005613262";
+        schema:name           "CIBS guide" ;
+        blt:bnb               "GB8037263" ; .
+
+<http://bnb.data.bl.uk/id/organization/CharteredInstitutionofBuildingServices>
+        a               dct:Agent , org:Organization , foaf:Organization , foaf:Agent , schema:Organization ;
+        rdfs:label      "CharteredInstitutionofBuildingServices" ;
+        schema:name     "Chartered Institution of Building Services" ;
+        blt:hasCreated  <http://bnb.data.bl.uk/id/resource/005613262> ;
+        foaf:name       "Chartered Institution of Building Services" ;
+		blt:hasContributedTo <http://bnb.data.bl.uk/id/resource/005613262>; .
+		
+<http://bnb.data.bl.uk/id/resource/005601003>
+        a                     schema:Book , dct:BibliographicResource , bibo:Book ;
+        rdfs:label            "ApplyingUML&patternstrainingcourseCraig Larman" ;
+        dct:creator           <http://bnb.data.bl.uk/id/person/LarmanCraig> ;
+		dct:contributor       <http://bnb.data.bl.uk/id/person/LarmanCraig> ;
+        dct:description       "Previous ed.: 1999."@en , "Title from title screen."@en ;
+        dct:title             "Applying UML & patterns training course : a desktop seminar" ;
+        schema:author         <http://bnb.data.bl.uk/id/person/LarmanCraig> ;
+        schema:datePublished  "2002" ;
+        schema:isbn           "0130479500" ;
+        schema:name           "Applying UML & patterns training course : a desktop seminar" ;
+        blt:bnb               "GBA318042" ; .
+		
+<http://bnb.data.bl.uk/id/person/LarmanCraig>
+        a                foaf:Agent , dct:Agent , schema:Person , foaf:Person ;
+        rdfs:label       "Larman,Craig" ;
+        schema:name      "Larman Craig" ;
+        blt:hasCreated   <http://bnb.data.bl.uk/id/resource/005601003> ;
+        foaf:familyName  "Larman" ;
+        foaf:givenName   "Craig" ;
+        foaf:name        "Craig Larman" ;
+		blt:hasContributedTo <http://bnb.data.bl.uk/id/resource/005601003>; .
+		
+<http://bnb.data.bl.uk/id/resource/006682158>
+        a                     dct:BibliographicResource , schema:Book , bibo:Book ;
+        rdfs:label            "GuidetoGreecePausanias" ;
+        dct:contributor       <http://bnb.data.bl.uk/id/person/LeviPeter> ;
+        dct:creator           <http://bnb.data.bl.uk/id/person/Pausaniasactiveapproximately150-175> ;
+        dct:description       "This ed. originally published: 1971."@en , "In 2 vols."@en , "Bibliography: p.517-519. _ Includes index."@en ;
+        dct:title             "Guide to Greece" ;
+        schema:author         <http://bnb.data.bl.uk/id/person/Pausaniasactiveapproximately150-175> ;
+        schema:contributor    <http://bnb.data.bl.uk/id/person/LeviPeter> ;
+        schema:datePublished  "1979" ;
+        schema:isbn           "0140442251" ;
+        schema:name           "Guide to Greece" ;
+        blt:bnb               "GB7916253" ; .
+		
+<http://bnb.data.bl.uk/id/person/LeviPeter>
+        a                     dct:Agent , foaf:Agent , foaf:Person , schema:Person ;
+        rdfs:label            "Levi,Peter" ;
+        schema:name           "Levi Peter" ;
+        blt:hasContributedTo  <http://bnb.data.bl.uk/id/resource/006682158> ;
+        foaf:familyName       "Levi" ;
+        foaf:givenName        "Peter" ;
+        foaf:name             "Peter Levi" .
+		
+<http://bnb.data.bl.uk/id/person/Pausaniasactiveapproximately150-175>
+        a               dct:Agent , foaf:Agent , schema:Person , foaf:Person ;
+        rdfs:label      "Pausanias,activeapproximately150-175" ;
+        schema:name     "Pausanias" ;
+        blt:hasCreated  <http://bnb.data.bl.uk/id/resource/006682158>;
+        foaf:name       "Pausanias" .

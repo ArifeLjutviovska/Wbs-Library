@@ -26,7 +26,7 @@ public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
 
-        String file = "C:\\Users\\arife\\Desktop\\books.ttl";
+        String file = "src/main/java/finki/wbs/library/demo/books.ttl";
         Model m = ModelFactory.createDefaultModel();
         InputStream in = FileManager.get().open(file);
         if (in == null) {
@@ -325,7 +325,7 @@ public class DemoApplication {
     }
 
     public static List<Book> searchByBookName(String param){
-        String file = "C:\\Users\\arife\\Desktop\\books.ttl";
+        String file = "src/main/java/finki/wbs/library/demo/books.ttl";
         Model m = ModelFactory.createDefaultModel();
         InputStream in = FileManager.get().open(file);
         if (in == null) {
@@ -385,7 +385,7 @@ public class DemoApplication {
     }
 
     public static List<Book> orderByLatest(){
-        String file = "C:\\Users\\arife\\Desktop\\books.ttl";
+        String file = "src/main/java/finki/wbs/library/demo/books.ttl";
         Model m = ModelFactory.createDefaultModel();
         InputStream in = FileManager.get().open(file);
         if (in == null) {
@@ -439,7 +439,7 @@ public class DemoApplication {
         return result;
     }
     public static List<Book> orderByOldest(){
-        String file = "C:\\Users\\arife\\Desktop\\books.ttl";
+        String file = "src/main/java/finki/wbs/library/demo/books.ttl";
         Model m = ModelFactory.createDefaultModel();
         InputStream in = FileManager.get().open(file);
         if (in == null) {
@@ -494,7 +494,7 @@ public class DemoApplication {
     }
 
     public static List<Book> searchByAuthorName(String param){
-        String file = "C:\\Users\\arife\\Desktop\\books.ttl";
+        String file = "src/main/java/finki/wbs/library/demo/books.ttl";
         Model m = ModelFactory.createDefaultModel();
         String queryString="";
 
@@ -560,7 +560,7 @@ public class DemoApplication {
         return result;
     }
     public static List<Book> searchByContributorName(String param){
-        String file = "C:\\Users\\arife\\Desktop\\books.ttl";
+        String file = "src/main/java/finki/wbs/library/demo/books.ttl";
         Model m = ModelFactory.createDefaultModel();
         String queryString="";
 
@@ -626,7 +626,7 @@ public class DemoApplication {
     }
 
     public static List<Book> searchByYear(String year){
-        String file = "C:\\Users\\arife\\Desktop\\books.ttl";
+        String file = "src/main/java/finki/wbs/library/demo/books.ttl";
         Model m = ModelFactory.createDefaultModel();
         String queryString="";
 

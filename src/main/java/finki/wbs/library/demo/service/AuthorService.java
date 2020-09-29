@@ -28,4 +28,9 @@ public class AuthorService {
         return this.authors.stream().filter(a->a.getName().equals(name)).findFirst().orElseThrow(InvalidAuthorNameException::new);
     }
 
+    public List<String> getHasCreated(String name){
+        Author author=this.getOneAuthor(name);
+        return author.getHasCreated();
+    }
+
 }
